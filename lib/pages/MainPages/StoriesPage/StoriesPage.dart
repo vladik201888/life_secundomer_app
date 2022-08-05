@@ -34,8 +34,21 @@ class _StoriesPageState extends State<StoriesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        minimum: EdgeInsets.all(24),
+      appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 255, 255, 255),
+        title: Row(
+          children: [
+            Text(
+              "Your Notes:",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 28,
+                  color: Colors.black),
+            )
+          ],
+        ),
+      ),
+      body: Container(
         child: buildNotes(notes),
       ),
       floatingActionButton: FloatingActionButton(
