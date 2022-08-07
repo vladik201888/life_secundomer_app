@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:life_secundomer_app/pages/LoginPage/age_page.dart';
 import 'package:life_secundomer_app/pages/LoginPage/name_page.dart';
+import 'package:life_secundomer_app/utils/UserSimplePrefernces.dart';
 import 'pages/MainPage.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await UserSimplePreferences.init();
   runApp(const MyApp());
 }
 

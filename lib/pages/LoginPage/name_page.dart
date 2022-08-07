@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../utils/UserSimplePrefernces.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -8,6 +10,13 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  String name = '';
+  void initState() {
+    super.initState();
+
+    name = UserSimplePreferences.getUsername() ?? '';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,6 +81,9 @@ class _LoginPageState extends State<LoginPage> {
                               BorderSide(color: Color.fromARGB(0, 0, 187, 212)),
                         ),
                       ),
+                      onChanged: (name) => setState(
+                        () => this.name = name,
+                      ),
                     ),
                   ],
                 ),
@@ -87,8 +99,10 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(20), // <-- Radius
                       ),
                     ),
-                    onPressed: () =>
-                        {Navigator.pushReplacementNamed(context, '/age')},
+                    onPressed: () async {
+                      await UserSimplePreferences.setUsername(name);
+                      Navigator.pushReplacementNamed(context, '/age');
+                    },
                     child: Container(
                       width: 320,
                       height: 50,

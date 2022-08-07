@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart';
+import 'package:life_secundomer_app/utils/UserSimplePrefernces.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -11,7 +12,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  String name = 'Vladyslav';
+  String? name = UserSimplePreferences.getUsername();
   @override
   Widget build(BuildContext context) {
     return Scaffold(

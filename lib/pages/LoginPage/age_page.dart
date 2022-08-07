@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:life_secundomer_app/utils/UserSimplePrefernces.dart';
 
 class AgePage extends StatefulWidget {
   const AgePage({Key? key}) : super(key: key);
@@ -8,7 +9,12 @@ class AgePage extends StatefulWidget {
 }
 
 class _AgePageState extends State<AgePage> {
-  DateTime date = DateTime(2022, 11, 12);
+  DateTime date = DateTime.now();
+  void initState() {
+    super.initState();
+    // date = UserSimplePreferences.getBirthday();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +33,7 @@ class _AgePageState extends State<AgePage> {
             ),
             // Введите вашу  дату рождения
             Text(
-              "Your Birhday:",
+              "$date",
               style: TextStyle(
                   fontSize: 32,
                   color: Color.fromARGB(214, 0, 0, 0),
@@ -46,9 +52,12 @@ class _AgePageState extends State<AgePage> {
                   lastDate: DateTime(2100),
                 );
                 if (newDate == null) return;
-                setState(() {
-                  date = newDate;
-                });
+                setState(
+                  () {
+                    this.date = newDate;
+                  },
+                );
+                await UserSimplePreferences.setBirthday(date);
               }),
               child: Container(
                 padding: EdgeInsets.all(10),
