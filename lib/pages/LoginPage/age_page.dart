@@ -12,7 +12,7 @@ class _AgePageState extends State<AgePage> {
   DateTime date = DateTime.now();
   void initState() {
     super.initState();
-    // date = UserSimplePreferences.getBirthday();
+    // date = UserSimplePreferences.getBirthday() ? UserSimplePreferences.getBirthday() : DateTime.now();
   }
 
   @override
@@ -33,7 +33,7 @@ class _AgePageState extends State<AgePage> {
             ),
             // Введите вашу  дату рождения
             Text(
-              "$date",
+              "Choose your date of birth:",
               style: TextStyle(
                   fontSize: 32,
                   color: Color.fromARGB(214, 0, 0, 0),

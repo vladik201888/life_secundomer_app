@@ -63,18 +63,8 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
                         title: _titleController.text,
                         description: _descriptionController.text,
                         createdTime: date);
-
-                    if (title != null) {
-                      Navigator.pop(context);
-                      try {
-                        await NotesDatabase.instance.create(note);
-                        print('OK');
-                      } catch (e) {
-                        throw Exception(e);
-                      }
-                    } else {
-                      Navigator.pop(context);
-                    }
+                    await NotesDatabase.instance.create(note);
+                    Navigator.pop(context);
                   },
                   child: Text(
                     "CREATE",

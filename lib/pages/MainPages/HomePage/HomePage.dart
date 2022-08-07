@@ -15,6 +15,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List<Note> notes = [];
+
+  void initState() {
+    super.initState();
+    refreshNotes();
+  }
+
+  Future refreshNotes() async {
+    this.notes = await NotesDatabase.instance.readAllNotes();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -133,11 +145,56 @@ class _HomePageState extends State<HomePage> {
                 "Your latest stories:",
                 style: TextStyle(fontSize: 32, fontWeight: FontWeight.w500),
               ),
-              // buildNotes(notes),
+              // ShowNotes(notes),
             ],
           ),
         ),
       ),
     );
   }
+}
+
+Widget ShowNotes(notes) {
+  return ListView.builder(
+    scrollDirection: Axis.vertical,
+    shrinkWrap: true,
+    itemCount: 4,
+    itemBuilder: (context, index) {
+      return SingleChildScrollView(
+        child: Card(
+          child: Container(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      notes[index].title,
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      "${notes[index].createdTime.day.toString()}.${notes[index].createdTime.month.toString()}.${notes[index].createdTime.year.toString()} ",
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Text(
+                  notes[index].description,
+                  style: TextStyle(fontSize: 16),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    },
+  );
 }

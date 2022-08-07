@@ -23,8 +23,28 @@ class MyApp extends StatelessWidget {
       },
       debugShowCheckedModeBanner: false,
       home: const Scaffold(
-        body: LoginPage(),
+        body: MyMainAppPage(),
       ),
     );
   }
 }
+
+class MyMainAppPage extends StatefulWidget {
+  const MyMainAppPage({Key? key}) : super(key: key);
+
+  @override
+  State<MyMainAppPage> createState() => _MyMainAppPageState();
+}
+
+class _MyMainAppPageState extends State<MyMainAppPage> {
+  String? name = UserSimplePreferences.getUsername();
+  @override
+  Widget build(BuildContext context) {
+    if (name == "") {
+      return LoginPage();
+    } else {
+      return MainPage();
+    }
+  }
+}
+// LoginPage();

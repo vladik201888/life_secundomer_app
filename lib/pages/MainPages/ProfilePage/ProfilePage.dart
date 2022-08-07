@@ -4,6 +4,9 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart';
 import 'package:life_secundomer_app/utils/UserSimplePrefernces.dart';
 
+import '../../../db/notes_database.dart';
+import '../../../model/note.dart';
+
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
@@ -12,7 +15,27 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  String? name = UserSimplePreferences.getUsername();
+  String name = '';
+  DateTime? date = UserSimplePreferences.getBirthday();
+
+  String yorDateOfBirth =
+      UserSimplePreferences.getBirthday().toString().substring(0, 10);
+
+  void initState() {
+    super.initState();
+    name = UserSimplePreferences.getUsername() ?? '';
+    refreshNotes();
+  }
+
+  List<Note> notes = [];
+  int countOfNotes = 0;
+
+  Future refreshNotes() async {
+    this.notes = await NotesDatabase.instance.readAllNotes();
+    setState(() {});
+    countOfNotes = notes.length;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,9 +53,17 @@ class _ProfilePageState extends State<ProfilePage> {
                     fontSize: 28,
                     color: Colors.black),
               ),
-              Icon(
-                Icons.keyboard_control,
-                color: Colors.black,
+              InkWell(
+                onTap: () async {
+                  UserSimplePreferences.setUsername('');
+                  setState(() {
+                    this.name = "";
+                  });
+                },
+                child: Icon(
+                  Icons.keyboard_control,
+                  color: Colors.black,
+                ),
               )
             ],
           ),
@@ -55,14 +86,11 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
             child: SafeArea(
-              minimum: const EdgeInsets.all(24),
+              minimum: const EdgeInsets.all(18),
               child: Center(
                 child: Column(
                   // mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
-                      height: 30,
-                    ),
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(100),
@@ -103,7 +131,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               fontSize: 24, fontWeight: FontWeight.w300),
                         ),
                         Text(
-                          "01.10.2003",
+                          "$yorDateOfBirth",
                           style: TextStyle(
                               fontSize: 24, fontWeight: FontWeight.w400),
                         )
@@ -121,7 +149,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               fontSize: 24, fontWeight: FontWeight.w300),
                         ),
                         Text(
-                          "73",
+                          "$countOfNotes",
                           style: TextStyle(
                               fontSize: 24, fontWeight: FontWeight.w400),
                         )

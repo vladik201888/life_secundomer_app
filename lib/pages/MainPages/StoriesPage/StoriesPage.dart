@@ -74,35 +74,41 @@ Widget buildNotes(notes) {
   return ListView.builder(
     itemCount: notes.length,
     itemBuilder: (context, index) {
-      return Card(
-        child: Container(
-          padding: EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 5,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    notes[index].title,
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    "${notes[index].createdTime.day.toString()}.${notes[index].createdTime.month.toString()}.${notes[index].createdTime.year.toString()} ",
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Text(
-                notes[index].description,
-                style: TextStyle(fontSize: 16),
-              ),
-            ],
+      return InkWell(
+        onLongPress: () {
+          // NotesDatabase.instance.delete(notes.noteId);
+        },
+        child: Card(
+          child: Container(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      notes[index].title,
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      "${notes[index].createdTime.day.toString()}.${notes[index].createdTime.month.toString()}.${notes[index].createdTime.year.toString()} ",
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Text(
+                  notes[index].description,
+                  style: TextStyle(fontSize: 16),
+                ),
+              ],
+            ),
           ),
         ),
       );
