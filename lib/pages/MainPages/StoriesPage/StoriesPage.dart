@@ -69,15 +69,11 @@ class _StoriesPageState extends State<StoriesPage> {
 }
 
 Widget buildNotes(notes) {
-  // final List<String> items = ['Hello', 'World', 'sdfsdf'];
-
   return ListView.builder(
     itemCount: notes.length,
     itemBuilder: (context, index) {
       return InkWell(
-        onLongPress: () {
-          // NotesDatabase.instance.delete(notes.noteId);
-        },
+        onTap: () async {},
         child: Card(
           child: Container(
             padding: EdgeInsets.all(20),

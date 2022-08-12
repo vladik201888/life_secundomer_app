@@ -1,5 +1,9 @@
 import 'package:age_calculator/age_calculator.dart';
 
+import '../utils/UserSimplePrefernces.dart';
+
+DateTime? date = UserSimplePreferences.getBirthday();
+
 void main() {
   DateTime birthday = DateTime(1997, 3, 5);
 

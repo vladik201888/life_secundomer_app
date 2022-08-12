@@ -19,9 +19,22 @@ class UserSimplePreferences {
     return await _preferences.setString(_keyBirthday, date);
   }
 
-  static DateTime? getBirthday() {
-    final date = _preferences.getString(_keyBirthday);
+  static bool checkBirthday() {
+    // get from pref
 
-    return date == null ? null : DateTime.tryParse(date);
+    // print('Hello CheckBirthday');
+    final date = _preferences.getString(_keyBirthday);
+    // print(date);
+
+    return date != null ? true : false;
+  }
+
+  static DateTime getBirthday() {
+    // get from pref
+    // print('Get CheckBirthday');
+    final date = _preferences.getString(_keyBirthday)!;
+    // print(date);
+    //return data
+    return DateTime.tryParse(date)!;
   }
 }

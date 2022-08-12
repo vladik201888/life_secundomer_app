@@ -3,6 +3,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart';
 import 'package:life_secundomer_app/utils/UserSimplePrefernces.dart';
+import 'package:sqflite/sqflite.dart';
 
 import '../../../db/notes_database.dart';
 import '../../../model/note.dart';

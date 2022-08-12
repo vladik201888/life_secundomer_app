@@ -41,17 +41,42 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
             key: _formKey,
             child: Column(
               children: <Widget>[
+                SizedBox(
+                  height: 15,
+                ),
                 TextFormField(
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please write some title...';
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(
                     labelText: 'Title',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                   ),
                   controller: _titleController,
+                ),
+                SizedBox(
+                  height: 20,
                 ),
                 TextFormField(
                   decoration: InputDecoration(
                     labelText: 'Description',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                   ),
                   controller: _descriptionController,
+                  maxLines: 3,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please write some title...';
+                    }
+                    return null;
+                  },
                 ),
                 SizedBox(
                   height: 15,
@@ -59,12 +84,14 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(primary: Colors.black87),
                   onPressed: () async {
-                    final note = Note(
-                        title: _titleController.text,
-                        description: _descriptionController.text,
-                        createdTime: date);
-                    await NotesDatabase.instance.create(note);
-                    Navigator.pop(context);
+                    if (_formKey.currentState!.validate()) {
+                      final note = Note(
+                          title: _titleController.text,
+                          description: _descriptionController.text,
+                          createdTime: date);
+                      await NotesDatabase.instance.create(note);
+                      Navigator.pop(context);
+                    }
                   },
                   child: Text(
                     "CREATE",

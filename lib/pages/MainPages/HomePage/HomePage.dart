@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:age_calculator/age_calculator.dart';
+import 'package:life_secundomer_app/utils/UserSimplePrefernces.dart';
 import 'dart:async';
 
 import '../../../db/notes_database.dart';
 import '../../../model/note.dart';
+
+import 'package:age_calculator/age_calculator.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -16,16 +19,42 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Note> notes = [];
+  int daysOfBirth = 0;
+  bool isHaveDateBirthday = false;
+  DateTime date = DateTime.now();
+
+  initBirthday() {
+    // print('1');
+    bool check = UserSimplePreferences.checkBirthday();
+    // print('14');
+    if (check) {
+      // print('check True');
+      isHaveDateBirthday = true;
+    } else {
+      // print('check False');
+      isHaveDateBirthday = false;
+    }
+
+    // print('2');
+  }
 
   void initState() {
     super.initState();
     refreshNotes();
+    initBirthday();
+    date = UserSimplePreferences.getBirthday();
+    daysOfBirth = AgeCalculator.age(date).days;
+    print(daysOfBirth);
   }
 
   Future refreshNotes() async {
     this.notes = await NotesDatabase.instance.readAllNotes();
     setState(() {});
   }
+
+  int CountOfNotes = 0;
+
+  // int different = DateTime.now().difference(date).inSeconds;
 
   @override
   Widget build(BuildContext context) {
@@ -51,13 +80,21 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: 10,
               ),
-              Text(
-                '18,843984902',
-                style: TextStyle(
-                    fontSize: 38,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black54),
-              ),
+              isHaveDateBirthday
+                  ? Text(
+                      "${AgeCalculator.age(date)}",
+                      style: TextStyle(
+                          fontSize: 38,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black54),
+                    )
+                  : Text(
+                      'I am Sorry',
+                      style: TextStyle(
+                          fontSize: 38,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black54),
+                    ),
               SizedBox(
                 height: 30,
               ),
@@ -145,7 +182,7 @@ class _HomePageState extends State<HomePage> {
                 "Your latest stories:",
                 style: TextStyle(fontSize: 32, fontWeight: FontWeight.w500),
               ),
-              // ShowNotes(notes),
+              ShowNotes(notes),
             ],
           ),
         ),
@@ -157,8 +194,9 @@ class _HomePageState extends State<HomePage> {
 Widget ShowNotes(notes) {
   return ListView.builder(
     scrollDirection: Axis.vertical,
+    primary: false,
     shrinkWrap: true,
-    itemCount: 4,
+    itemCount: notes.length,
     itemBuilder: (context, index) {
       return SingleChildScrollView(
         child: Card(
